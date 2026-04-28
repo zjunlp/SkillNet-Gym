@@ -65,6 +65,49 @@ The local client is responsible for:
 
 Users do **not** need to connect to Neo4j or other database components directly.
 
+<table>
+  <tr>
+    <th>Harness</th>
+    <th>Model</th>
+    <th>Skill Construction</th>
+    <th>Skill Execution</th>
+  </tr>
+  <tr>
+    <td rowspan="6">Claude Code</td>
+    <td>Claude Opus 4.6</td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>Claude Sonnet 4.6</td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>Claude Haiku 4.5</td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>GLM-5.1</td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>Kimi-K2.6</td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>Minimax-M2.7</td>
+    <td></td>
+    <td></td>
+  </tr>
+</table>
+
+
+
+
 ## 🧩 Supported Tasks
 
 | Task Type | Required Input | Main Output |
