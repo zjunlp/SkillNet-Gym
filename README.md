@@ -1,7 +1,5 @@
-# SkillGym
-
 <div align="center">
-  <h1>SkillGym: A Holistic Framework for Evaluating Agent Skills</h1>
+  <h1>SkillNet-Gym: A Holistic Framework for Evaluating Agent Skills</h1>
 </div>
 
 <p align="center">
