@@ -3,7 +3,7 @@
 </div>
 
 <p align="center">
-  Open-source client for running literature-grounded scientific research tasks on top of SciNet API.
+  A dynamic evaluation gym for skill-centric agents beyond static benchmarks.
 </p>
 <p align="center">
   <a href="https://arxiv.org/abs/2602.14367">📄arXiv</a>
