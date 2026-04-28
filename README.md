@@ -261,11 +261,10 @@ The first run may download these models into the local Hugging Face cache.
 
 ## 📝 TODO
 
-- [ ] **CLI Tools.** Add more user-facing CLI capabilities so downstream users and AI agents can invoke retrieval workflows without touching database internals.
-- [ ] **Skills.** Package reusable agent skills for common scientific discovery workflows and expose best practices as easier-to-load components.
-- [ ] **More Knowledge.** Integrate more knowledge forms beyond paper-centric entities, such as datasets, code, standards, theorems, and experimental experience.
-- [ ] **Benchmark and Evaluation.** Build dedicated benchmarks and evaluation protocols for downstream scientific research tasks supported by SciNet.
-- [ ] **Dynamic Update**Improve dynamic knowledge updates toward a more systematic and frequent refresh mechanism.
+- [ ] **Broader and More Comprehensive Coverage.** Expand the benchmark to cover a wider range of Skill types and task categories, including tasks specifically designed to evaluate skill adaptation across different models, harnesses, and environments.
+- [ ] **Open-Source End-to-End Task Synthesis Pipeline.** Release the full end-to-end task synthesis pipeline so downstream users can customize and generate their own SkillGym-style benchmarks from their own skill ecosystems, documents, and entities.
+- [ ] **Beyond End-to-End Evaluation.** Introduce lightweight testing tasks that do not require full end-to-end execution, enabling cheaper, faster, and more fine-grained evaluation of specific lifecycle abilities such as skill creation, modification, adaptation, and execution bottlenecks.
+
 
 ## ✍️ Citation
 
