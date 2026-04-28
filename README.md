@@ -41,13 +41,13 @@
 
 SciNet is a large-scale, multi-disciplinary, heterogeneous academic resource knowledge graph designed as a panoramic scientific evolution network. By integrating over 43M papers from 26 disciplines, and a total of 157M entites and 3B triplets, SciNet provides a structured topological cognitive substrate that dismantles disciplinary barriers and furnishes AI agents with a global perspective.
 
-<img src="imgs/field_distribution_pie.png" alt="field_distribution_pie" style="zoom:7%;" />
+<img src="imgs/domain.png" alt="field_distribution_pie" style="zoom:7%;" />
 
 <div align="center">
   Discipline Distribution in SciNet
 </div>
 
-<img src="imgs/schema.png" alt="schema" style="zoom:10%;" />
+<img src="imgs/pipeline.png" alt="schema" style="zoom:10%;" />
 
 <div align="center">
   Schema of SciNet
