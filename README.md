@@ -3,8 +3,9 @@
 </div>
 
 <p align="center">
-  A Holistic Framework for Evaluating Agent Skills
+  A Holistic Framework for Evaluating Skill-centric Agents Beyond Static Benchmarks.
 </p>
+
 <!-- <p align="center">
   <a href="https://arxiv.org">📄arXiv</a>
 </p> -->
