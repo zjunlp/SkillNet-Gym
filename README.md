@@ -62,7 +62,7 @@ In addition, an upcoming open-source task synthesis pipeline will enable users t
 <img src="imgs/pipeline.png" alt="schema" style="zoom:10%;" />
 
 <div align="center">
-  Schema of SciNet
+  Overview of Pipeline
 </div>
 
 SkillNet-Gym synthesizes benchmark tasks by sampling connected subgraphs from the heterogeneous skill graph and turning them into executable, verifiable task instances.
@@ -93,7 +93,6 @@ Each synthesized task is paired with automatic verification signals, such as:
 - test-case evaluation against oracle outputs.
 
 This ensures that generated tasks are not only diverse and realistic, but also objective and reproducible for agent evaluation.
-
 Overall, the task synthesis pipeline enables SkillNet-Gym to benchmark agents on graph-grounded, multi-step, and continuously refreshable workflows, moving beyond static handcrafted task collections.
 
 
