@@ -29,11 +29,6 @@
 - [📂 Layout](#-repository-layout)
 - [🚀 Quick Start](#-quick-start)
 - [🧪 Run Tasks](#-run-tasks)
-  - [`Idea Grounding and Evaluation`](#idea-grounding-and-evaluation)
-  - [`Idea Generation`](#idea-generation)
-  - [`Research Trend Predicting`](#research-trend-predicting)
-  - [`Related Author Retrieval`](#related-author-retrieval)
-  - [`Researcher Background Review`](#researcher-background-review)
 - [📝 TODO](#-todo)
 - [✍️ Citation](#-citation)
 
