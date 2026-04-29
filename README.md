@@ -172,6 +172,14 @@ harbor run -p tasks/<task-id> -a claude-code -m 'anthropic/claude-opus-4-5'
 - [ ] **Beyond End-to-End Evaluation.** Introduce lightweight testing tasks that do not require full end-to-end execution, enabling cheaper, faster, and more fine-grained evaluation of specific lifecycle abilities such as skill creation, modification, adaptation, and execution bottlenecks.
 
 
+## Acknowledgement
+
+We deeply appreciate the invaluable effort contributed by our dedicated team of developers, supportive users, and esteemed industry partners.
+
+Tsinghua University
+Ant Digital Technologies, Ant Group
+
+
 ## ✍️ Citation
 
 If you find our work helpful, please use the following citations.
