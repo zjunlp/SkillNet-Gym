@@ -34,12 +34,14 @@
 
 ## ✨ Overview
 
-SciNet is a large-scale, multi-disciplinary, heterogeneous academic resource knowledge graph designed as a panoramic scientific evolution network. By integrating over 43M papers from 26 disciplines, and a total of 157M entites and 3B triplets, SciNet provides a structured topological cognitive substrate that dismantles disciplinary barriers and furnishes AI agents with a global perspective.
+SkillNet-Gym is a **live benchmark** for evaluating agents on real, evolving, and diverse community skills. Instead of relying on static, manually curated task snapshots, SkillNet-Gym continuously constructs benchmark tasks from real skill ecosystems through an automated pipeline.
+
+Starting from 200K+ downloaded skills from real community sources, SkillNet Gym applies automated filtering and quality control to collect **5K+ high-quality** skills spanning diverse domains.
 
 <img src="imgs/domain.png" alt="field_distribution_pie" style="zoom:7%;" />
 
 <div align="center">
-  Discipline Distribution in SciNet
+  Domain Distribution in Collected Skills
 </div>
 
 <img src="imgs/pipeline.png" alt="schema" style="zoom:10%;" />
