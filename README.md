@@ -6,7 +6,7 @@
   A dynamic evaluation gym for skill-centric agents beyond static benchmarks.
 </p>
 <p align="center">
-  <a href="https://arxiv.org/abs/2602.14367">📄arXiv</a>
+  <a href="https://arxiv.org">📄arXiv</a>
 </p>
 <p align="center">
   <a href="https://github.com/zjunlp/SciNet">
@@ -53,6 +53,14 @@ On top of these skills, SkillNet-Gym constructs a **heterogeneous graph** that c
   Heterogeneous Skill Graph in SkillNet-Gym
 </div>
 
+
+
+This repository provides a **live benchmark** for evaluating an agent's ability to **create, execute, and adapt skills** under real-world and continuously evolving skill ecosystems.
+Each setting supports **end-to-end evaluation** of an agent's performance on completing tasks. 
+In addition, an upcoming open-source task synthesis pipeline will enable users to automatically generate domain-adaptive evaluation tasks.
+
+
+
 ## ⚒️ Task Synthesis
 
 <img src="imgs/pipeline.png" alt="schema" style="zoom:10%;" />
@@ -61,17 +69,36 @@ On top of these skills, SkillNet-Gym constructs a **heterogeneous graph** that c
   Schema of SciNet
 </div>
 
-This repository provides a runnable client for several scientific research workflows, including idea evaluation, topic review, author discovery, author profiling, and idea generation.
+SkillNet-Gym synthesizes benchmark tasks by sampling connected subgraphs from the heterogeneous skill graph and turning them into executable, verifiable task instances.
 
-Each run is driven by CLI inputs plus optional runtime parameter overrides. The client also writes a `request.json` file into the run directory so every execution remains easy to inspect and reproduce later.
+The pipeline focuses on three key steps:
 
-The local client is responsible for:
+1. Subgraph Sampling
+Instead of testing isolated skills, SkillNet-Gym samples skill-centered subgraphs that capture realistic workflows involving:
 
-- building a structured request
-- calling a hosted `SciNet API`
-- running client-side post-processing such as reranking, PDF parsing, grounding, and Markdown report generation
+multiple interacting skills,
+executable entities such as files, datasets, APIs, or databases,
+supporting documents such as manuals, references, and tutorials.
+This allows each task to reflect a real operational context rather than a standalone capability.
 
-Users do **not** need to connect to Neo4j or other database components directly.
+2. Task Instance Synthesis
+For each sampled subgraph, SkillNet-Gym automatically generates:
+
+a natural language instruction,
+a context pack with relevant documents and entity snapshots,
+an executable environment with required artifacts,
+a reference solution sketch or oracle signal.
+Because tasks are synthesized from structured graph relations, they naturally preserve cross-skill dependencies, tool usage patterns, and artifact flow.
+
+3. Verification
+Each synthesized task is paired with automatic verification signals, such as:
+
+execution-based checks,
+artifact validation,
+test-case evaluation against oracle outputs.
+This ensures that generated tasks are not only diverse and realistic, but also objective and reproducible for agent evaluation.
+
+Overall, the task synthesis pipeline enables SkillNet-Gym to benchmark agents on graph-grounded, multi-step, and continuously refreshable workflows, moving beyond static handcrafted task collections.
 
 <table>
   <tr>
