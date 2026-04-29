@@ -24,6 +24,7 @@
 ## 📑 Table of Contents
 
 - [✨ Overview](#-overview)
+- [⚒️ Task Synthesis](#-task-synthesis)
 - [🧩 Supported Tasks](#-supported-tasks)
 - [🛠️ GROBID](#-grobid)
 - [📂 Layout](#-repository-layout)
@@ -43,6 +44,10 @@ Starting from 200K+ downloaded skills from real community sources, SkillNet Gym 
 <div align="center">
   Domain Distribution in Collected Skills
 </div>
+
+
+
+## ⚒️ Task Synthesis
 
 <img src="imgs/pipeline.png" alt="schema" style="zoom:10%;" />
 
