@@ -1,9 +1,9 @@
 <div align="center">
-  <h1>SkillNet-Gym: A Holistic Framework for Evaluating Agent Skills</h1>
+  <h1>SkillNet-Gym</h1>
 </div>
 
 <p align="center">
-  A dynamic evaluation gym for skill-centric agents beyond static benchmarks.
+  A Holistic Framework for Evaluating Agent Skills
 </p>
 <!-- <p align="center">
   <a href="https://arxiv.org">📄arXiv</a>
