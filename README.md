@@ -5,9 +5,9 @@
 <p align="center">
   A dynamic evaluation gym for skill-centric agents beyond static benchmarks.
 </p>
-<p align="center">
+<!-- <p align="center">
   <a href="https://arxiv.org">📄arXiv</a>
-</p>
+</p> -->
 <p align="center">
   <a href="https://github.com/zjunlp/SciNet">
   	<img src="https://awesome.re/badge.svg" alt="Awesome">
