@@ -37,7 +37,7 @@
 
 SkillNet-Gym is a **live benchmark** for evaluating agents on real, evolving, and diverse community skills. Instead of relying on static, manually curated task snapshots, SkillNet-Gym continuously constructs benchmark tasks from real skill ecosystems through an automated pipeline.
 
-Starting from 200K+ downloaded skills from real community sources, SkillNet Gym applies automated filtering and quality control to collect **5K+ high-quality** skills spanning diverse domains.
+Starting from 200K+ downloaded skills from real community sources, SkillNet-Gym applies automated filtering and quality control to collect **5K+ high-quality** skills spanning diverse domains.
 
 <img src="imgs/domain.png" alt="field_distribution_pie" style="zoom:7%;" />
 
@@ -45,7 +45,13 @@ Starting from 200K+ downloaded skills from real community sources, SkillNet Gym 
   Domain Distribution in Collected Skills
 </div>
 
+On top of these skills, SkillNet-Gym constructs a **heterogeneous graph** that connects skills with their hierarchical relations, executable entities, and supporting documents, forming a structured foundation for benchmark generation. By grounding evaluation in real, evolving, and graph-connected skills rather than static handcrafted tasks, SkillNet-Gym aims to reduce benchmark staleness and mitigate domain skew in evaluation conclusions.
 
+<img src="imgs/graph.png" alt="field_distribution_pie" style="zoom:7%;" />
+
+<div align="center">
+  Heterogeneous Skill Graph in SkillNet-Gym
+</div>
 
 ## ⚒️ Task Synthesis
 
