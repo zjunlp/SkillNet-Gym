@@ -69,29 +69,29 @@ SkillNet-Gym synthesizes benchmark tasks by sampling connected subgraphs from th
 
 The pipeline focuses on three key steps:
 
-1. Subgraph Sampling
+**1. Subgraph Sampling**
 Instead of testing isolated skills, SkillNet-Gym samples skill-centered subgraphs that capture realistic workflows involving:
 
-multiple interacting skills,
-executable entities such as files, datasets, APIs, or databases,
-supporting documents such as manuals, references, and tutorials.
-This allows each task to reflect a real operational context rather than a standalone capability.
+- multiple interacting skills,
+- executable entities such as files, datasets, APIs, or databases,
+- supporting documents such as manuals, references, and tutorials.
+- This allows each task to reflect a real operational context rather than a standalone capability.
 
-2. Task Instance Synthesis
+**2. Task Instance Synthesis**
 For each sampled subgraph, SkillNet-Gym automatically generates:
 
-a natural language instruction,
-a context pack with relevant documents and entity snapshots,
-an executable environment with required artifacts,
-a reference solution sketch or oracle signal.
-Because tasks are synthesized from structured graph relations, they naturally preserve cross-skill dependencies, tool usage patterns, and artifact flow.
+- a natural language instruction,
+- a context pack with relevant documents and entity snapshots,
+- an executable environment with required artifacts,
+- a reference solution sketch or oracle signal.
 
-3. Verification
+**3. Quality Control**
 Each synthesized task is paired with automatic verification signals, such as:
 
-execution-based checks,
-artifact validation,
-test-case evaluation against oracle outputs.
+- execution-based checks,
+- artifact validation,
+- test-case evaluation against oracle outputs.
+
 This ensures that generated tasks are not only diverse and realistic, but also objective and reproducible for agent evaluation.
 
 Overall, the task synthesis pipeline enables SkillNet-Gym to benchmark agents on graph-grounded, multi-step, and continuously refreshable workflows, moving beyond static handcrafted task collections.
