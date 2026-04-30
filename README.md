@@ -123,45 +123,73 @@ harbor run -p tasks/<task-id> -a claude-code -m 'anthropic/claude-opus-4-5'
 
 ### Experiment Results
 
-
 <table>
-  <tr>
-    <th>Harness</th>
-    <th>Model</th>
-    <th>Skill Construction</th>
-    <th>Skill Execution</th>
-  </tr>
-  <tr>
-    <td rowspan="6">Claude Code</td>
-    <td>Claude Opus 4.6</td>
-    <td></td>
-    <td></td>
-  </tr>
-  <tr>
-    <td>Claude Sonnet 4.6</td>
-    <td></td>
-    <td></td>
-  </tr>
-  <tr>
-    <td>Claude Haiku 4.5</td>
-    <td></td>
-    <td></td>
-  </tr>
-  <tr>
-    <td>GLM-5.1</td>
-    <td></td>
-    <td></td>
-  </tr>
-  <tr>
-    <td>Kimi-K2.6</td>
-    <td></td>
-    <td></td>
-  </tr>
-  <tr>
-    <td>Minimax-M2.7</td>
-    <td></td>
-    <td></td>
-  </tr>
+  <thead>
+    <tr>
+      <th rowspan="2">Harness</th>
+      <th rowspan="2">Model</th>
+      <th colspan="3">Skill Construction</th>
+      <th colspan="2">Skill Execution</th>
+    </tr>
+    <tr>
+      <th>No Skills</th>
+      <th>Self-Generated Skills</th>
+      <th>Curated Skills</th>
+      <th>No Skills</th>
+      <th>Curated Skills</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td rowspan="6">Claude Code</td>
+      <td>Claude Opus 4.6</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Claude Sonnet 4.6</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Claude Haiku 4.5</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>GLM-5.1</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Kimi-K2.6</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Minimax-M2.7</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+  </tbody>
 </table>
 
 
