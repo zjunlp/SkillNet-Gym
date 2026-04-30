@@ -134,9 +134,9 @@ harbor run -p tasks/<task-id> -a claude-code -m 'anthropic/claude-opus-4-5'
     <tr>
       <th>No Skills</th>
       <th>Self-Generated Skills</th>
-      <th>Curated Skills</th>
+      <th>with Skills</th>
       <th>No Skills</th>
-      <th>Curated Skills</th>
+      <th>with Skills</th>
     </tr>
   </thead>
   <tbody>
