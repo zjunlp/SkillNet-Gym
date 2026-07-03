@@ -1,222 +1,238 @@
-<div align="center">
-  <h1>SkillNet-Gym</h1>
-</div>
+# SkillNet-Gym
 
-<p align="center">
-  A Holistic Framework for Evaluating Skill-centric Agents Beyond Static Benchmarks.
-</p>
+**Building a directed skill graph — and synthesizing verifiable multi-skill coding tasks from it.**
 
-<!-- <p align="center">
-  <a href="https://arxiv.org">📄arXiv</a>
-</p> -->
-<p align="center">
-  <a href="https://github.com/zjunlp/SciNet">
-  	<img src="https://awesome.re/badge.svg" alt="Awesome">
-  </a>
-  <a href="https://github.com/zjunlp/SciNet/blob/main/LICENSE">
-    <img src="https://img.shields.io/badge/License-MIT-green.svg" alt="License: MIT">
-  </a>
-  <img src="https://img.shields.io/github/last-commit/zjunlp/SciNet?color=blue" alt="Last Commit">
-  <img src="https://img.shields.io/badge/PRs-Welcome-red" alt="PRs Welcome">
-</p>
+SkillNet-Gym is the open reference implementation for the pipeline described in
+*"SkillNet-Gym: Skill-Graph-Driven Auto-Synthesis of Verifiable Multi-Skill Coding
+Tasks"*. It contains two complementary sub-pipelines:
 
-------
+1. **Graph construction** (`skillnet_gym.graph`) — search, filter, dedup, and
+   scenario-align a corpus of skills into a directed acyclic **skill graph**,
+   then sample multi-skill task topologies (chain / fan-in / fan-out / diamond)
+   from it.
+2. **Task auto-synthesis** (`skillnet_gym.synthesis`) — take a sampled DAG task
+   and the skills it references, drive Claude Code through autonomous
+   exploration and execution, and package the result as a fully verifiable
+   task (`instruction.md`, `solve.sh`, pytest tests, Dockerfile, `task.toml`).
 
-## 📑 Table of Contents
+```
+   ┌────────────────────────────┐     ┌───────────────────────────────┐
+   │  Stage A: Skill Graph      │     │  Stage B: Task Auto-Synthesis │
+   │                            │     │                               │
+   │  search → filter → dedup   │──▶  │  file summary                 │
+   │        ↓                   │     │        ↓                      │
+   │  scenario align → edges    │──▶  │  DAG-guided exploration       │
+   │        ↓                   │     │        ↓                      │
+   │  DAG build → task sample   │──▶  │  instruction / oracle / tests │
+   │        ↓                   │     │        ↓                      │
+   │  package env + entities    │──▶  │  ➡  Harbor Task package       │
+   └────────────────────────────┘     └───────────────────────────────┘
+```
 
-- [✨ Overview](#-overview)
-- [⚒️ Task Synthesis](#-task-synthesis)
-- [🚀 Quick Start](#-quick-start)
-- [📝 TODO](#-todo)
-- [✍️ Citation](#-citation)
+---
 
-## ✨ Overview
-
-SkillNet-Gym is a **live benchmark** for evaluating agents on real, evolving, and diverse community skills. Instead of relying on static, manually curated task snapshots, SkillNet-Gym continuously constructs benchmark tasks from real skill ecosystems through an automated pipeline.
-
-Starting from 200K+ downloaded skills from real community sources, SkillNet-Gym applies automated filtering and quality control to collect **5K+ high-quality** skills spanning diverse domains.
-
-<img src="imgs/domain.png" alt="field_distribution_pie" style="zoom:7%;" />
-
-<div align="center">
-  Domain Distribution in Collected Skills
-</div>
-
-On top of these skills, SkillNet-Gym constructs a **heterogeneous graph** that connects skills with their hierarchical relations, executable entities, and supporting documents, forming a structured foundation for benchmark generation. By grounding evaluation in real, evolving, and graph-connected skills rather than static handcrafted tasks, SkillNet-Gym aims to reduce benchmark staleness and mitigate domain skew in evaluation conclusions.
-
-<img src="imgs/graph.png" alt="field_distribution_pie" style="zoom:7%;" />
-
-<div align="center">
-  Heterogeneous Skill Graph in SkillNet-Gym
-</div>
-
-
-
-This repository provides a **live benchmark** for evaluating an agent's ability to **create, execute, and adapt skills** under real-world and continuously evolving skill ecosystems.
-Each setting supports **end-to-end evaluation** of an agent's performance on completing tasks. 
-In addition, an upcoming open-source task synthesis pipeline will enable users to automatically generate domain-adaptive evaluation tasks.
-
-
-
-## ⚒️ Task Synthesis
-
-<img src="imgs/pipeline.png" alt="schema" style="zoom:10%;" />
-
-<div align="center">
-  Overview of Pipeline
-</div>
-
-SkillNet-Gym synthesizes benchmark tasks by sampling connected subgraphs from the heterogeneous skill graph and turning them into executable, verifiable task instances.
-
-The pipeline focuses on three key steps:
-
-**1. Subgraph Sampling**
-Instead of testing isolated skills, SkillNet-Gym samples skill-centered subgraphs that capture realistic workflows involving:
-
-- multiple interacting skills,
-- executable entities such as files, datasets, APIs, or databases,
-- supporting documents such as manuals, references, and tutorials.
-- This allows each task to reflect a real operational context rather than a standalone capability.
-
-**2. Task Instance Synthesis**
-For each sampled subgraph, SkillNet-Gym automatically generates:
-
-- a natural language instruction,
-- a context pack with relevant documents and entity snapshots,
-- an executable environment with required artifacts,
-- a reference solution sketch or oracle signal.
-
-**3. Quality Control**
-Each synthesized task is paired with automatic verification signals, such as:
-
-- execution-based checks,
-- artifact validation,
-- test-case evaluation against oracle outputs.
-
-This ensures that generated tasks are not only diverse and realistic, but also objective and reproducible for agent evaluation.
-Overall, the task synthesis pipeline enables SkillNet-Gym to benchmark agents on graph-grounded, multi-step, and continuously refreshable workflows, moving beyond static handcrafted task collections.
-
-
-
-## 🚀 Quick Start
-
-Use the following steps to get a working run from a clean checkout.
-
-### 1. Installation
+## Install
 
 ```bash
-uv tool install harbor
+git clone https://github.com/your-org/skillnet-gym.git
+cd skillnet-gym
+python -m venv .venv && source .venv/bin/activate
+pip install -e .
+cp .env.example .env  # fill in your keys
 ```
 
-### 2. Running Tasks with Harbor
+The **synthesis** pipeline additionally needs the [Claude Code CLI](https://github.com/anthropics/claude-code)
+on your `PATH` (it is invoked as a subprocess for exploration and oracle
+execution).
+
+## Configure
+
+All credentials come from environment variables (or a `.env` file — the graph
+scripts auto-load `.env` from the working directory):
+
+| Variable                 | Used by                       | Default                       |
+| ------------------------ | ----------------------------- | ----------------------------- |
+| `LLM_API_KEY` / `API_KEY`| every LLM step (both stages)  | —                             |
+| `LLM_BASE_URL`           | LLM client                    | `https://api.openai.com/v1`   |
+| `LLM_MODEL`              | LLM client                    | `gpt-4o`                      |
+| `EMBEDDING_API_KEY`      | dedup + alignment             | falls back to `LLM_API_KEY`   |
+| `EMBEDDING_BASE_URL`     | dedup + alignment             | falls back to `LLM_BASE_URL`  |
+| `EMBEDDING_MODEL`        | dedup + alignment             | `text-embedding-3-large`      |
+| `ANTHROPIC_AUTH_TOKEN`   | Claude Code (synthesis)       | —                             |
+| `ANTHROPIC_BASE_URL`     | Claude Code (synthesis)       | `https://api.anthropic.com`   |
+| `GITHUB_TOKEN`           | skill download (rate limits)  | —                             |
+
+Any OpenAI-compatible endpoint works (vLLM, OpenRouter, Ollama, etc.).
+
+---
+
+## Stage A — Skill graph construction
+
+The graph pipeline is 14 short, resumable CLI scripts. They all read/write JSON
+so you can inspect and re-run any single step. Run in order:
 
 ```bash
-# Validate task
-harbor tasks check tasks/<task-id>
+# 1. Semantic search over SkillNet for candidate skills per query seed
+python -m skillnet_gym.graph.search.skillnet_semantic_search \
+    --input query_seeds.json --output skillnet_semantic_results.json \
+    --limit 30 --threshold 0.8 --workers 8
 
-# Run oracle (must pass 100%)
-harbor run -p tasks/<task-id> -a oracle
+# 2. Rank / filter by GitHub stars
+python -m skillnet_gym.graph.search.filter_skillnet_results \
+    --input skillnet_semantic_results.json \
+    --output skillnet_semantic_results_by_stars.json \
+    --keep 20 --min-stars 10
 
-# Run with agent (specify model with -m)
-harbor run -p tasks/<task-id> -a claude-code -m 'anthropic/claude-opus-4-5'
+# 3. Clone the surviving skill repos
+python -m skillnet_gym.graph.download.download_filtered_skills \
+    --input skillnet_semantic_results_by_stars.json \
+    --target-dir downloaded_skills \
+    --manifest downloaded_skills_manifest.json \
+    --skip-existing --workers 8
+
+# 4. LLM-scored quality gate (cost / verifiability / documentation)
+python -m skillnet_gym.graph.download.evaluate_skills_quality \
+    --skills-dir downloaded_skills --workers 8
+
+# 5. Embedding cluster + dedup skills
+python -m skillnet_gym.graph.dedup.cluster_dedup_downloaded_skills \
+    --manifest downloaded_skills_manifest.json \
+    --threshold 0.90 --top-neighbors 50
+
+# 6. Extract pre/post scenarios from each SKILL.md
+python -m skillnet_gym.graph.scenarios.extract_skill_scenarios --workers 2
+
+# 7. Dedup scenarios via embedding + Louvain clustering
+python -m skillnet_gym.graph.dedup.deduplicate_scenarios \
+    --top-neighbors 100 --graph-threshold 0.82 --cluster-threshold 0.88
+
+# 8. Match post-scenarios ↔ pre-scenarios and LLM-verify handoffs
+python -m skillnet_gym.graph.scenarios.align_skill_scenarios \
+    --top-k 30 --min-retrieval-score 0.5 --workers 8
+
+# 9. Review edges for functional redundancy
+python -m skillnet_gym.graph.scenarios.review_skill_edge_redundancy \
+    --input scenario_alignment_keep.json --workers 8
+
+# 10. Assemble the directed skill graph
+python -m skillnet_gym.graph.build_sample.build_scenario_skill_graph \
+    --alignments scenario_alignment_nonredundant_keep.json \
+    --output scenario_skill_graph.json
+
+# 11. Sample chain / fan-in / fan-out / diamond DAG tasks
+python -m skillnet_gym.graph.build_sample.sample_skill_graph_tasks \
+    --max-per-category 1000 --output skill_graph_task_candidates.json
+
+# 12. LLM-review composed tasks for compositional validity
+python -m skillnet_gym.graph.build_sample.evaluate_skill_graph_tasks \
+    --input skill_graph_task_candidates.json --workers 4
+
+# 13. LLM-score candidate input entities against each task
+python -m skillnet_gym.graph.packaging.evaluate_task_input_entities \
+    --tasks skill_graph_tasks_part_01.json \
+    --entities entity/task_input_entities_part_01.json --workers 4
+
+# 14. Materialize per-task environments (copy skills, download inputs)
+python -m skillnet_gym.graph.packaging.package_task_environments \
+    --tasks 'skill_graph_tasks_*.json' \
+    --entities 'entity/task_input_entities_*.json' \
+    --output-dir packaged_tasks --workers 8
 ```
 
-### Experiment Results
+Every step is checkpoint-friendly — most support `--skip-existing`, `--force`,
+and `--workers N`. A one-shot driver is in `scripts/run_graph_pipeline.sh`.
 
-<table>
-  <thead>
-    <tr>
-      <th rowspan="2">Harness</th>
-      <th rowspan="2">Model</th>
-      <th colspan="3">Skill Construction</th>
-      <th colspan="2">Skill Execution</th>
-    </tr>
-    <tr>
-      <th>No Skills</th>
-      <th>Self-Generated Skills</th>
-      <th>with Skills</th>
-      <th>No Skills</th>
-      <th>with Skills</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td rowspan="6">Claude Code</td>
-      <td>Claude Opus 4.6</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>Claude Sonnet 4.6</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>Claude Haiku 4.5</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>GLM-5.1</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>Kimi-K2.6</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>Minimax-M2.7</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-  </tbody>
-</table>
+---
 
+## Stage B — Task auto-synthesis
 
+Given one packaged task from Stage A (a directory holding a `dag_task.json`,
+an `environment/skills/` folder, and input files), synthesize a fully
+verifiable coding task:
 
-## 📝 TODO
-
-- [ ] **Broader and More Comprehensive Coverage.** Expand the benchmark to cover a wider range of Skill types and task categories, including tasks specifically designed to evaluate skill adaptation across different models, harnesses, and environments.
-- [ ] **Open-Source End-to-End Task Synthesis Pipeline.** Release the full end-to-end task synthesis pipeline so downstream users can customize and generate their own SkillGym-style benchmarks from their own skill ecosystems, documents, and entities.
-- [ ] **Beyond End-to-End Evaluation.** Introduce lightweight testing tasks that do not require full end-to-end execution, enabling cheaper, faster, and more fine-grained evaluation of specific lifecycle abilities such as skill creation, modification, adaptation, and execution bottlenecks.
-
-
-## Acknowledgement
-
-We deeply appreciate the invaluable effort contributed by our dedicated team of developers, supportive users, and esteemed industry partners.
-
-Tsinghua University
-Ant Digital Technologies, Ant Group
-
-
-## ✍️ Citation
-
-If you find our work helpful, please use the following citations.
-
+```bash
+# Full DAG-aware pipeline: file summary → exploration → task synthesis
+python -m skillnet_gym.synthesis \
+    --dag-task packaged_tasks/task-abc123/dag_task.json \
+    --entity-folder packaged_tasks/task-abc123/environment \
+    --skills-dir packaged_tasks/task-abc123/environment/skills \
+    --output ./workspaces
 ```
 
+Or run phase by phase (useful when iterating on prompts):
+
+```bash
+python -m skillnet_gym.synthesis --phase file_summary --entity-folder path/to/files
+python -m skillnet_gym.synthesis --phase exploration  --file-summary summaries.json --skills-dir skills/
+python -m skillnet_gym.synthesis --phase task_synthesis --exploration summary.md --file-summary summaries.json
 ```
 
-### License
+Output for each task:
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+```
+task_xxx/
+├── instruction.md          # LLM-synthesized, quality-filtered
+├── solve.sh                # Deterministic oracle solution
+├── tests/test_outputs.py   # pytest suite validated against the oracle
+├── input/                  # Task input files
+├── skills/                 # Skill definitions (SKILL.md + code)
+├── Dockerfile              # Reproducible container spec
+└── task.toml               # Metadata (difficulty, category, timeouts)
+```
+
+### Pipeline internals
+
+The synthesis pipeline runs three phases (see [`docs/architecture.md`](docs/architecture.md)
+for details):
+
+| Phase                | Component                                                      | Output                     |
+| -------------------- | -------------------------------------------------------------- | -------------------------- |
+| **1. File summary**  | `components.file_summarizer`                                    | per-file content type + summary |
+| **2. Exploration**   | Claude Code × N checkpointed chunks, DAG-topological           | `exploration_summary.md`   |
+| **3. Task synthesis**| instruction → filter → guide → oracle → PRM → pytest → solve.sh | packaged task directory    |
+
+Two LLM roles are used with independent model configuration
+(`llm_model_synthesis` / `llm_model_verification`) — both hit the same
+OpenAI-compatible endpoint. Claude Code exploration uses a separate Anthropic
+model configured via `ANTHROPIC_*`.
+
+---
+
+## Repository layout
+
+```
+skillnet-gym/
+├── README.md
+├── LICENSE                  # Apache 2.0
+├── pyproject.toml
+├── .env.example
+├── docs/
+│   └── architecture.md      # Deep-dive on the synthesis pipeline
+├── examples/                # Example inputs (query seeds, dag_task.json, …)
+├── scripts/                 # One-shot driver scripts
+└── src/skillnet_gym/
+    ├── graph/
+    │   ├── search/          # 1–2  SkillNet search + star filter
+    │   ├── download/        # 3–4  GitHub download + LLM quality gate
+    │   ├── dedup/           # 5, 7 Skill & scenario embedding clustering
+    │   ├── scenarios/       # 6, 8–9 Extraction, alignment, redundancy review
+    │   ├── build_sample/    # 10–12 DAG build, topology sampling, task eval
+    │   └── packaging/       # 13–14 Entity eval, environment packaging
+    └── synthesis/
+        ├── pipeline.py      # HarborSynthesisPipeline / …V2 (DAG-aware)
+        ├── config.py        # PipelineConfig + all data structures
+        ├── execution/       # Claude CLI subprocess wrapper, trajectory recorder
+        ├── components/      # Instruction / test / solve.sh generators
+        ├── prompts/         # System + user prompt templates
+        ├── utils/           # LLM client, file utils, path normalization
+        └── env_builder/     # Optional: build conda envs for a task set
+```
+
+## Cite
+
+If SkillNet-Gym is useful in your research, please cite the paper (BibTeX
+entry to appear here).
+
+## License
+
+Apache 2.0. See [LICENSE](LICENSE).

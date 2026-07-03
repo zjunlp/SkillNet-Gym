@@ -1,0 +1,43 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "skillnet-gym"
+version = "0.1.0"
+description = "Skill-graph construction and verifiable multi-skill task auto-synthesis from SkillNet."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "Apache-2.0" }
+authors = [{ name = "SkillNet-Gym Contributors" }]
+keywords = ["llm", "agent", "benchmark", "claude-code", "skills", "task-synthesis"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: POSIX :: Linux",
+    "Operating System :: MacOS",
+    "Intended Audience :: Science/Research",
+]
+dependencies = [
+    "openai>=1.30",
+    "numpy>=1.24",
+    "requests>=2.31",
+    "tqdm>=4.66",
+    "pyyaml>=6.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=7", "ruff>=0.4"]
+
+[project.urls]
+Homepage = "https://github.com/your-org/skillnet-gym"
+Paper    = "https://github.com/your-org/skillnet-gym#paper"
+
+[project.scripts]
+skillnet-synthesize = "skillnet_gym.synthesis.pipeline:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"skillnet_gym.synthesis" = ["env_builder/*.sh"]
