@@ -20,6 +20,23 @@
   <img src="https://img.shields.io/github/last-commit/zjunlp/SciAtlas?color=blue" alt="Last Commit">
   <img src="https://img.shields.io/badge/PRs-Welcome-red" alt="PRs Welcome">
 </p>
+<div align="center">
+  
+  **SkillNet-Gym turns evolving real-world skill ecosystems into executable, quality-controlled benchmark tasks.**
+  
+</div>
+
+## Table of Contents
+
+- [👀Overview](#overview)
+- [🔧Installation](#installation)
+- [🏃Quick Start](#quick-start)
+- [🧭Benchmark Settings](#benchmark-settings)
+- [🗂️Data Format](#data-format)
+- [📊Evaluation](#evaluation)
+- [🛠️ Build Your Own Gym](#build-your-own-skillnet-gym)
+- [🎁Acknowledgement](#acknowledgement)
+- [🚩Citation](#citation)
 
 ---
 
