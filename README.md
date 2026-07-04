@@ -89,7 +89,7 @@ Tasks"*. It contains two complementary sub-pipelines:
 
 ---
 
-## Install
+## 🔧 Installation
 
 ```bash
 git clone https://github.com/your-org/skillnet-gym.git
@@ -103,8 +103,163 @@ The **synthesis** pipeline additionally needs the [Claude Code CLI](https://gith
 on your `PATH` (it is invoked as a subprocess for exploration and oracle
 execution).
 
-## Configure
+```
 
+### 5. Evaluate skill composition in the wild
+
+```bash
+python -m skillnet_gym.evaluate_composition \
+  --skill-pool data/skillnet/skills.jsonl \
+  --gold data/benchmark/metadata.jsonl \
+  --mode retrieve_and_orchestrate \
+  --agent claude-code \
+  --model claude-sonnet \
+  --top-k 10 \
+  --output runs/composition.jsonl
+```
+
+---
+
+## Benchmark Settings
+
+SkillNet-Gym evaluates the full lifecycle of agent skills.
+
+| Setting | What the Agent Receives | What It Tests | Main Metric |
+| --- | --- | --- | --- |
+| **No Skill** | Task instruction and files only | Whether the agent can solve the task without procedural support | `Avg@k` pass rate |
+| **Official Skill / Skill Efficacy** | Gold official skills attached to the task | Whether provided skills improve execution | `Avg@k` pass rate |
+| **Skill Construction** | Upstream documents or community materials | Whether the agent can distill reusable skills before execution | `Avg@k` pass rate after constructed skill use |
+| **Skill Retrieve** | A large wild skill pool | Whether the agent can find all gold skills | Completeness / Recall / Precision |
+| **Skill Orchestration** | A large wild skill pool | Whether the agent can recover dependency-aware skill workflows | Graph Completeness / Edge Recall / Edge Precision |
+| **In the Wild** | A large skill library during task execution | End-to-end performance under realistic repository noise | `Avg@k` pass rate |
+
+---
+
+## Evaluation
+
+### End-to-end task execution
+
+A task is considered successful when the final output passes all tests.
+
+```text
+Avg@k = average pass rate over k independent runs per task
+```
+
+Run a full evaluation:
+
+```bash
+python -m skillnet_gym.evaluate \
+  --setting official_skill \
+  --agent codex \
+  --model gpt \
+  --split all \
+  --num-runs 3 \
+  --parallel 8 \
+  --output runs/official_skill_codex.jsonl
+```
+
+Summarize results:
+
+```bash
+python -m skillnet_gym.summarize \
+  --input runs/official_skill_codex.jsonl \
+  --group-by difficulty,domain,topology \
+  --output runs/official_skill_codex_summary.md
+```
+
+### Skill composition evaluation
+
+Skill composition is evaluated without requiring the agent to execute the full task. The evaluator checks whether the agent retrieves the required skills and reconstructs the correct dependency graph.
+
+```text
+Skill Completeness = 1 if the predicted skill set covers all gold skills, else 0
+Graph Completeness = 1 if predicted skills and dependency edges cover the gold graph, else 0
+Recall / Precision = overlap-based retrieval and edge metrics
+Avg selected = average number of selected skills or edges
+```
+
+Run composition evaluation:
+
+```bash
+python -m skillnet_gym.evaluate_composition \
+  --skill-pool data/skillnet/skills.jsonl \
+  --tasks data/benchmark/metadata.jsonl \
+  --mode retrieve \
+  --top-k 10 \
+  --output runs/skill_retrieve.jsonl
+
+python -m skillnet_gym.evaluate_composition \
+  --skill-pool data/skillnet/skills.jsonl \
+  --tasks data/benchmark/metadata.jsonl \
+  --mode orchestrate \
+  --top-k 10 \
+  --output runs/skill_orchestration.jsonl
+```
+
+---
+
+## Data Format
+
+Each task is an executable mini-environment.
+
+```text
+tasks/SG_000001/
+  instruction.md          # Natural-language task instruction
+  metadata.json           # Domain, topology, difficulty, gold skills, gold edges
+  input/                  # Task-specific input artifacts
+  skills/                 # Official skills for controlled skill-efficacy evaluation
+  solution/
+    solve.sh              # Reference solution trajectory compressed into a script
+  tests/
+    test.sh               # Deterministic verifier
+  environment/
+    Dockerfile            # Minimal execution environment
+```
+
+Example `metadata.json`:
+
+```json
+{
+  "task_id": "SG_000001",
+  "domain": "Biomedicine",
+  "subdomain": "Variant Calling & Annotation",
+  "difficulty": "hard",
+  "topology": "diamond",
+  "num_skills": 5,
+  "gold_skills": [
+    "bio-variant-calling",
+    "bio-variant-normalization",
+    "snpeff-variant-annotation",
+    "plink-basics",
+    "chart-visualization"
+  ],
+  "gold_edges": [
+    ["bio-variant-calling", "bio-variant-normalization"],
+    ["bio-variant-normalization", "snpeff-variant-annotation"],
+    ["bio-variant-normalization", "plink-basics"]
+  ],
+  "verifier": "tests/test.sh"
+}
+```
+
+SkillNet graph files are stored as JSONL:
+
+```json
+{"skill_id":"skill_0001","name":"csv-table-cleaning","domain":"Data Analytics","url":"https://...","quality":{"verifiability":5}}
+{"source":"skill_0001","target":"skill_0042","type":"compose_with","confidence":0.91,"evidence":["cleaned CSV can be used for statistical analysis"]}
+```
+
+---
+
+## Build Your Own SkillNet-Gym
+
+
+SkillNet-Gym is not only a fixed benchmark. It is also a recipe for constructing new dynamic skill benchmarks as the skill ecosystem changes.
+1. Build Graph
+2. Sample
+3. Synthesis Tasks
+
+   
 All credentials come from environment variables (or a `.env` file — the graph
 scripts auto-load `.env` from the working directory):
 
