@@ -28,15 +28,15 @@
 
 ## Table of Contents
 
-- [👀Overview](#overview)
-- [🔧Installation](#installation)
-- [🏃Quick Start](#quick-start)
-- [🧭Benchmark Settings](#benchmark-settings)
-- [🗂️Data Format](#data-format)
-- [📊Evaluation](#evaluation)
+- [✨ Overview](#overview)
+- [🔧 Installation](#installation)
+- [🏃 Quick Start](#quick-start)
+- [🧭 Benchmark Settings](#benchmark-settings)
+- [🗂️ Data Format](#data-format)
+- [📊 Evaluation](#evaluation)
 - [🛠️ Build Your Own Gym](#build-your-own-skillnet-gym)
-- [🎁Acknowledgement](#acknowledgement)
-- [🚩Citation](#citation)
+- [🎁 Acknowledgement](#acknowledgement)
+- [🚩 Citation](#citation)
 
 ---
 
