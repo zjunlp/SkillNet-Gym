@@ -119,7 +119,7 @@ python -m skillnet_gym.evaluate_composition \
 
 ---
 
-## Benchmark Settings
+## 🧭 Benchmark Settings
 
 SkillNet-Gym evaluates the full lifecycle of agent skills.
 
@@ -134,7 +134,60 @@ SkillNet-Gym evaluates the full lifecycle of agent skills.
 
 ---
 
-## Evaluation
+
+## 🗂️ Data Format
+
+Each task is an executable mini-environment.
+
+```text
+tasks/SG_000001/
+  instruction.md          # Natural-language task instruction
+  metadata.json           # Domain, topology, difficulty, gold skills, gold edges
+  input/                  # Task-specific input artifacts
+  skills/                 # Official skills for controlled skill-efficacy evaluation
+  solution/
+    solve.sh              # Reference solution trajectory compressed into a script
+  tests/
+    test.sh               # Deterministic verifier
+  environment/
+    Dockerfile            # Minimal execution environment
+```
+
+Example `metadata.json`:
+
+```json
+{
+  "task_id": "SG_000001",
+  "domain": "Biomedicine",
+  "subdomain": "Variant Calling & Annotation",
+  "difficulty": "hard",
+  "topology": "diamond",
+  "num_skills": 5,
+  "gold_skills": [
+    "bio-variant-calling",
+    "bio-variant-normalization",
+    "snpeff-variant-annotation",
+    "plink-basics",
+    "chart-visualization"
+  ],
+  "gold_edges": [
+    ["bio-variant-calling", "bio-variant-normalization"],
+    ["bio-variant-normalization", "snpeff-variant-annotation"],
+    ["bio-variant-normalization", "plink-basics"]
+  ],
+  "verifier": "tests/test.sh"
+}
+```
+
+SkillNet graph files are stored as JSONL:
+
+```json
+{"skill_id":"skill_0001","name":"csv-table-cleaning","domain":"Data Analytics","url":"https://...","quality":{"verifiability":5}}
+{"source":"skill_0001","target":"skill_0042","type":"compose_with","confidence":0.91,"evidence":["cleaned CSV can be used for statistical analysis"]}
+```
+
+---
+## 📊 Evaluation
 
 ### End-to-end task execution
 
@@ -197,60 +250,7 @@ python -m skillnet_gym.evaluate_composition \
 
 ---
 
-## Data Format
-
-Each task is an executable mini-environment.
-
-```text
-tasks/SG_000001/
-  instruction.md          # Natural-language task instruction
-  metadata.json           # Domain, topology, difficulty, gold skills, gold edges
-  input/                  # Task-specific input artifacts
-  skills/                 # Official skills for controlled skill-efficacy evaluation
-  solution/
-    solve.sh              # Reference solution trajectory compressed into a script
-  tests/
-    test.sh               # Deterministic verifier
-  environment/
-    Dockerfile            # Minimal execution environment
-```
-
-Example `metadata.json`:
-
-```json
-{
-  "task_id": "SG_000001",
-  "domain": "Biomedicine",
-  "subdomain": "Variant Calling & Annotation",
-  "difficulty": "hard",
-  "topology": "diamond",
-  "num_skills": 5,
-  "gold_skills": [
-    "bio-variant-calling",
-    "bio-variant-normalization",
-    "snpeff-variant-annotation",
-    "plink-basics",
-    "chart-visualization"
-  ],
-  "gold_edges": [
-    ["bio-variant-calling", "bio-variant-normalization"],
-    ["bio-variant-normalization", "snpeff-variant-annotation"],
-    ["bio-variant-normalization", "plink-basics"]
-  ],
-  "verifier": "tests/test.sh"
-}
-```
-
-SkillNet graph files are stored as JSONL:
-
-```json
-{"skill_id":"skill_0001","name":"csv-table-cleaning","domain":"Data Analytics","url":"https://...","quality":{"verifiability":5}}
-{"source":"skill_0001","target":"skill_0042","type":"compose_with","confidence":0.91,"evidence":["cleaned CSV can be used for statistical analysis"]}
-```
-
----
-
-## Build Your Own SkillNet-Gym
+## 🛠️ Build Your Own SkillNet-Gym
 
 
 SkillNet-Gym is not only a fixed benchmark. It is also a recipe for constructing new dynamic skill benchmarks as the skill ecosystem changes.
