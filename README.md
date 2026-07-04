@@ -30,7 +30,6 @@
 
 - [✨ Overview](#overview)
 - [🔧 Installation](#installation)
-- [🏃 Quick Start](#quick-start)
 - [🧭 Benchmark Settings](#benchmark-settings)
 - [🗂️ Data Format](#data-format)
 - [📊 Evaluation](#evaluation)
