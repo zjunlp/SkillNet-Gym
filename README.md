@@ -1,4 +1,29 @@
-# SkillNet-Gym
+<div align="center">
+  <h1>SkillNet-Gym: A Dynamic Benchmark for Compositional Skill Learning</h1>
+</div>
+
+
+<p align="center">
+  <a href="https://github.com/zjunlp/SkillNet-Gym" target="_blank">📄arXiv</a> •
+  <a href="https://github.com/zjunlp/SkillNet-Gym" target="_blank">🤗HFPaper</a> •
+  <a href="https://github.com/zjunlp/SkillNet-Gym" target="_blank">📊Dataset</a> •
+</p>
+
+
+<p align="center">
+  <a href="https://github.com/zjunlp/SciAtlas">
+    <img src="https://awesome.re/badge.svg" alt="Awesome">
+  </a>
+  <a href="https://github.com/zjunlp/SciAtlas/blob/main/LICENSE">
+    <img src="https://img.shields.io/badge/License-MIT-green.svg" alt="License: MIT">
+  </a>
+  <img src="https://img.shields.io/github/last-commit/zjunlp/SciAtlas?color=blue" alt="Last Commit">
+  <img src="https://img.shields.io/badge/PRs-Welcome-red" alt="PRs Welcome">
+</p>
+
+---
+
+## ✨ Overview
 
 **Building a directed skill graph — and synthesizing verifiable multi-skill coding tasks from it.**
 
