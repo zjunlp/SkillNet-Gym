@@ -132,12 +132,20 @@ SkillNet-Gym evaluates the full lifecycle of agent skills.
 | **Skill Orchestration** | A large wild skill pool | Whether the agent can recover dependency-aware skill workflows | Graph Completeness / Edge Recall / Edge Precision |
 | **In the Wild** | A large skill library during task execution | End-to-end performance under realistic repository noise | `Avg@k` pass rate |
 
+<p align="center">
+  <img src="imgs/taxonomy.png" alt="" width="92%">
+</p>
+
 ---
 
 
 ## 🗂️ Data Format
 
 Each task is an executable mini-environment.
+
+<p align="center">
+  <img src="imgs/case_study.png" alt="" width="92%">
+</p>
 
 ```text
 tasks/SG_000001/
