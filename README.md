@@ -450,11 +450,14 @@ skillnet-gym/
         └── env_builder/     # Optional: build conda envs for a task set
 ```
 
-## Cite
+
+## 🙏 Acknowledgement
+We deeply appreciate the invaluable effort contributed by our dedicated team of developers, supportive users, and esteemed industry partners: [Ant Digital Technologies, Ant Group](https://intl.antdigital.com/en).
+This repository develops a benchmark based on [Harbor](https://github.com/harbor-framework/harbor) task types. We sincerely thank all contributors for their outstanding work!
+
+
+
+## 🚩 Citation
 
 If SkillNet-Gym is useful in your research, please cite the paper (BibTeX
 entry to appear here).
-
-## License
-
-Apache 2.0. See [LICENSE](LICENSE).
