@@ -133,7 +133,7 @@ SkillNet-Gym evaluates the full lifecycle of agent skills.
 | **In the Wild** | A large skill library during task execution | End-to-end performance under realistic repository noise | `Avg@k` pass rate |
 
 <p align="center">
-  <img src="imgs/taxonomy.png" alt="" width="92%">
+  <img src="imgs/taxonomy.png" alt="" width="62%">
 </p>
 
 ---
@@ -199,9 +199,9 @@ SkillNet graph files are stored as JSONL:
 
 ### End-to-end task execution
 
-A task is considered successful when the final output passes all tests.
+For end-to-end evaluation, our task format is compatible with [Harbor](https://github.com/harbor-framework/harbor)'s official automated evaluation framework.
 
-For we support [harbor](https://github.com/sunnychenxiwang/harbor)
+To better support users who may have difficulty pulling or running Docker images, we also modified the [Harbor](https://github.com/sunnychenxiwang/harbor) source code to **enable execution in a local Conda environment**. In addition, we ensure that Claude Code and Codex agents can run concurrently in isolated workspaces, preventing interference between parallel agent runs.
 
 ```text
 Avg@k = average pass rate over k independent runs per task
