@@ -44,7 +44,7 @@
 
 LLM agents increasingly solve complex tasks by using **skills**: reusable procedural assets that may contain instructions, workflow recipes, scripts, templates, examples, or references. However, real skill ecosystems are not fixed. New skills appear, old skills become stale, and useful capabilities often emerge only when multiple skills are retrieved and composed in the right order.
 
-**SkillNet-Gym** is a dynamic benchmark for evaluating this full skill lifecycle. Instead of freezing a manually curated snapshot, SkillNet-Gym starts from community skills and related web artifacts, organizes them into a continuously extensible **SkillNet**, and automatically synthesizes executable tasks that require agents to construct, retrieve, compose, and apply skills.
+**SkillNet-Gym** is a dynamic benchmark for evaluating compositional skill learning. Instead of freezing a manually curated snapshot, SkillNet-Gym starts from community skills and related web artifacts, organizes them into a continuously extensible **SkillNet**, and automatically synthesizes executable tasks that require agents to construct, retrieve, compose, and apply skills.
 
 <p align="center">
   <img src="imgs/intro.png" alt="" width="92%">
@@ -53,8 +53,8 @@ LLM agents increasingly solve complex tasks by using **skills**: reusable proced
 
 Concretely, SkillNet-Gym enables:
 - **Dynamic task generation from a living SkillNet.** SkillNet-Gym continuously organizes community skills, documents, and processable files into a heterogeneous SkillNet, then samples compositional subgraphs to synthesize new benchmark tasks. As the external skill ecosystem changes, the benchmark can evolve with it instead of becoming a stale snapshot.
-- **Unified evaluation of Skill Construction and Skill Composition / Organization.** SkillNet-Gym places no-skill solving, official skill usage, model-constructed skills, wild skill retrieval, and dependency-aware orchestration under one benchmark protocol. This allows researchers to locate whether failure comes from poor skill distillation, incomplete retrieval, wrong dependency ordering, incorrect handoffs, or weak final execution.
-- **Task-driven self-adaptation of skills.** Each task is backed by executable files, gold skills, gold dependency edges, reference solutions, and deterministic verifiers. These tasks can serve as optimization targets for self-adaptive agents: failures suggest whether a skill should be rewritten, expanded, split, merged, re-indexed, re-routed, or re-composed with other skills. In this sense, SkillNet-Gym provides the practical loop **evaluate → diagnose → adapt skills → retest / regenerate tasks**. 
+- **Unified evaluation of Skill Construction and Skill Composition.** SkillNet-Gym places no-skill solving, official skill usage, model-constructed skills, wild skill retrieval, and orchestration under one benchmark protocol. This allows researchers to locate whether failure comes from poor skill distillation, incomplete retrieval, wrong dependency ordering, incorrect handoffs, or weak final execution.
+- **Task-driven self-adaptation of skills.** Each task is backed by files, gold skills, gold dependency edges, reference solutions, and deterministic verifiers. These tasks can serve as optimization targets for self-adaptive agents: failures suggest whether a skill should be rewritten, expanded, split, merged, re-indexed, re-routed, or re-composed with other skills. In this sense, SkillNet-Gym provides an evaluation foundation for an adaptive closed loop: **evaluate → diagnose → adapt skills → execute tasks**.
 
 
 **Building a directed skill graph — and synthesizing verifiable multi-skill coding tasks from it.**
