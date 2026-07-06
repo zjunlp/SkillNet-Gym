@@ -100,7 +100,7 @@ SkillNet-Gym enable unified evaluation for compositional skill learning.
 
 
 ### Task Information
-SkillNet-Gym spans 13 core domains and 81 sub domains, covering a broad range of practical settings, including data analysis, science, technology and so on. In addition, we provide examples showing how biology-related tasks are synthesized.
+SkillNet-Gym spans 13 core domains and 81 sub domains, covering a broad range of practical settings, including data analysis, science, math, technology and so on. In addition, we provide an example showing how biology-related tasks are synthesized.
 
 <p align="center">
   <img src="imgs/taxonomy.png" alt="taxonomy" width="35%" style="margin-right: 20px;">
