@@ -74,7 +74,8 @@ To support local Harbor evaluation, we provide scripts for the following steps:
 # Installing Claude Code
 npm install -g @anthropic-ai/claude-code
 # Installing Harbor in a dedicated environment
-conda run -n conda_env pip install -e sunnychenxiwang/harbor
+git clone https://github.com/sunnychenxiwang/harbor.git
+conda run -n conda_env pip install -e harbor
 # Installing the Conda environments required by the tasks
 ```
 
