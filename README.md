@@ -62,6 +62,10 @@ Concretely, SkillNet-Gym enables:
 
 For end-to-end evaluation, our task format is compatible with [Harbor](https://github.com/harbor-framework/harbor)'s official automated evaluation framework.
 
+```bash
+uv tool install harbor
+```
+
 To better support users who may have difficulty pulling or running Docker images, we also modified the [Harbor](https://github.com/sunnychenxiwang/harbor) source code to **enable execution in a local Conda environment**. In addition, we ensure that Claude Code and Codex agents can run concurrently in isolated workspaces, preventing interference between parallel agent runs.
 
 To support local Harbor evaluation, we provide scripts for the following steps:
