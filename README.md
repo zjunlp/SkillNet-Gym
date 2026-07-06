@@ -30,8 +30,7 @@
 
 - [✨ Overview](#overview)
 - [🔧 Installation](#installation)
-- [🧭 Benchmark Settings](#benchmark-settings)
-- [🗂️ Data Format](#data-format)
+- [🧭 Benchmark Metadata](#benchmark-metadata)
 - [📊 Evaluation](#evaluation)
 - [🛠️ Build Your Own Gym](#build-your-own-skillnet-gym)
 - [🎁 Acknowledgement](#acknowledgement)
@@ -101,10 +100,11 @@ SkillNet-Gym enable unified evaluation for compositional skill learning.
 
 
 ### Task Information
+SkillNet-Gym spans 13 core domains and 81 sub domains, covering a broad range of practical settings, including data analysis, science, technology and so on. In addition, we provide examples showing how biology-related tasks are synthesized.
 
 <p align="center">
-  <img src="imgs/taxonomy.png" alt="taxonomy" width="45%" style="margin-right: 20px;">
-  <img src="imgs/case_study.png" alt="case study" width="45%">
+  <img src="imgs/taxonomy.png" alt="taxonomy" width="35%" style="margin-right: 20px;">
+  <img src="imgs/case_study.png" alt="case study" width="50%">
 </p>
 
 ---
