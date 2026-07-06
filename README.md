@@ -81,80 +81,31 @@ conda run -n conda_env pip install -e harbor
 
 ---
 
-## 🧭 Benchmark Settings
+## 🧭 Benchmark Metadata
 
-SkillNet-Gym evaluates the full lifecycle of agent skills.
+### Benchmark Settings
+
+SkillNet-Gym enable unified evaluation for compositional skill learning.
 
 | Setting | What the Agent Receives | What It Tests | Main Metric |
 | --- | --- | --- | --- |
 | **No Skill** | Task instruction and files only | Whether the agent can solve the task without procedural support | `Avg@k` pass rate |
-| **Official Skill / Skill Efficacy** | Gold official skills attached to the task | Whether provided skills improve execution | `Avg@k` pass rate |
+| **Skill Efficacy** | Gold official skills attached to the task | Whether provided skills improve execution | `Avg@k` pass rate |
 | **Skill Construction** | Upstream documents or community materials | Whether the agent can distill reusable skills before execution | `Avg@k` pass rate after constructed skill use |
 | **Skill Retrieve** | A large wild skill pool | Whether the agent can find all gold skills | Completeness / Recall / Precision |
 | **Skill Orchestration** | A large wild skill pool | Whether the agent can recover dependency-aware skill workflows | Graph Completeness / Edge Recall / Edge Precision |
 | **In the Wild** | A large skill library during task execution | End-to-end performance under realistic repository noise | `Avg@k` pass rate |
 
-<p align="center">
-  <img src="imgs/taxonomy.png" alt="" width="62%">
-</p>
 
 ---
 
 
-## 🗂️ Data Format
-
-Each task is an executable mini-environment.
+### Task Information
 
 <p align="center">
-  <img src="imgs/case_study.png" alt="" width="92%">
+  <img src="imgs/taxonomy.png" alt="taxonomy" width="45%" style="margin-right: 20px;">
+  <img src="imgs/case_study.png" alt="case study" width="45%">
 </p>
-
-```text
-tasks/SG_000001/
-  instruction.md          # Natural-language task instruction
-  metadata.json           # Domain, topology, difficulty, gold skills, gold edges
-  input/                  # Task-specific input artifacts
-  skills/                 # Official skills for controlled skill-efficacy evaluation
-  solution/
-    solve.sh              # Reference solution trajectory compressed into a script
-  tests/
-    test.sh               # Deterministic verifier
-  environment/
-    Dockerfile            # Minimal execution environment
-```
-
-Example `metadata.json`:
-
-```json
-{
-  "task_id": "SG_000001",
-  "domain": "Biomedicine",
-  "subdomain": "Variant Calling & Annotation",
-  "difficulty": "hard",
-  "topology": "diamond",
-  "num_skills": 5,
-  "gold_skills": [
-    "bio-variant-calling",
-    "bio-variant-normalization",
-    "snpeff-variant-annotation",
-    "plink-basics",
-    "chart-visualization"
-  ],
-  "gold_edges": [
-    ["bio-variant-calling", "bio-variant-normalization"],
-    ["bio-variant-normalization", "snpeff-variant-annotation"],
-    ["bio-variant-normalization", "plink-basics"]
-  ],
-  "verifier": "tests/test.sh"
-}
-```
-
-SkillNet graph files are stored as JSONL:
-
-```json
-{"skill_id":"skill_0001","name":"csv-table-cleaning","domain":"Data Analytics","url":"https://...","quality":{"verifiability":5}}
-{"source":"skill_0001","target":"skill_0042","type":"compose_with","confidence":0.91,"evidence":["cleaned CSV can be used for statistical analysis"]}
-```
 
 ---
 ## 📊 Evaluation
