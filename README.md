@@ -173,17 +173,7 @@ python -m skillnet_gym.evaluate_composition \
 ## 🛠️ Build Your Own SkillNet-Gym
 
 
-SkillNet-Gym is not only a fixed benchmark. It is also a recipe for constructing new dynamic skill benchmarks as the skill ecosystem changes.
-1. Build Graph
-2. Sample
-3. Synthesis Tasks
-
-
-**Building a directed skill graph — and synthesizing verifiable multi-skill coding tasks from it.**
-
-SkillNet-Gym is the open reference implementation for the pipeline described in
-*"SkillNet-Gym: Skill-Graph-Driven Auto-Synthesis of Verifiable Multi-Skill Coding
-Tasks"*. It contains two complementary sub-pipelines:
+SkillNet-Gym is not only a fixed benchmark. It is also a recipe for constructing new dynamic skill benchmarks as the skill ecosystem changes. The core pipeline consists of two stages: **Building a directed skill graph and synthesizing tasks from it.**
 
 1. **Graph construction** (`skillnet_gym.graph`) — search, filter, dedup, and
    scenario-align a corpus of skills into a directed acyclic **skill graph**,
@@ -229,7 +219,7 @@ Any OpenAI-compatible endpoint works (vLLM, OpenRouter, Ollama, etc.).
 
 ---
 
-## Stage A — Skill graph construction
+### Stage A — Skill graph construction
 
 The graph pipeline is 14 short, resumable CLI scripts. They all read/write JSON
 so you can inspect and re-run any single step. Run in order:
@@ -307,7 +297,7 @@ and `--workers N`. A one-shot driver is in `scripts/run_graph_pipeline.sh`.
 
 ---
 
-## Stage B — Task auto-synthesis
+### Stage B — Task auto-synthesis
 
 Given one packaged task from Stage A (a directory holding a `dag_task.json`,
 an `environment/skills/` folder, and input files), synthesize a fully
@@ -361,42 +351,12 @@ model configured via `ANTHROPIC_*`.
 
 ---
 
-## Repository layout
-
-```
-skillnet-gym/
-├── README.md
-├── LICENSE                  # Apache 2.0
-├── pyproject.toml
-├── .env.example
-├── docs/
-│   └── architecture.md      # Deep-dive on the synthesis pipeline
-├── examples/                # Example inputs (query seeds, dag_task.json, …)
-├── scripts/                 # One-shot driver scripts
-└── src/skillnet_gym/
-    ├── graph/
-    │   ├── search/          # 1–2  SkillNet search + star filter
-    │   ├── download/        # 3–4  GitHub download + LLM quality gate
-    │   ├── dedup/           # 5, 7 Skill & scenario embedding clustering
-    │   ├── scenarios/       # 6, 8–9 Extraction, alignment, redundancy review
-    │   ├── build_sample/    # 10–12 DAG build, topology sampling, task eval
-    │   └── packaging/       # 13–14 Entity eval, environment packaging
-    └── synthesis/
-        ├── pipeline.py      # HarborSynthesisPipeline / …V2 (DAG-aware)
-        ├── config.py        # PipelineConfig + all data structures
-        ├── execution/       # Claude CLI subprocess wrapper, trajectory recorder
-        ├── components/      # Instruction / test / solve.sh generators
-        ├── prompts/         # System + user prompt templates
-        ├── utils/           # LLM client, file utils, path normalization
-        └── env_builder/     # Optional: build conda envs for a task set
-```
-
 
 ## 🙏 Acknowledgement
 We deeply appreciate the invaluable effort contributed by our dedicated team of developers, supportive users, and esteemed industry partners: [Ant Digital Technologies, Ant Group](https://intl.antdigital.com/en).
 This repository develops a benchmark based on [Harbor](https://github.com/harbor-framework/harbor) task types. We sincerely thank all contributors for their outstanding work!
 
-
+---
 
 ## 🚩 Citation
 
