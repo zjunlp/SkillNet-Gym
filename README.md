@@ -56,65 +56,22 @@ Concretely, SkillNet-Gym enables:
 - **Unified evaluation of Skill Construction and Skill Composition.** SkillNet-Gym places no-skill solving, official skill usage, model-constructed skills, wild skill retrieval, and orchestration under one benchmark protocol. This allows researchers to locate whether failure comes from poor skill distillation, incomplete retrieval, wrong dependency ordering, incorrect handoffs, or weak final execution.
 - **Task-driven self-adaptation of skills.** Each task is backed by files, gold skills, gold dependency edges, reference solutions, and deterministic verifiers. These tasks can serve as optimization targets for self-adaptive agents: failures suggest whether a skill should be rewritten, expanded, split, merged, re-indexed, re-routed, or re-composed with other skills. In this sense, SkillNet-Gym provides an evaluation foundation for an adaptive closed loop: **evaluate → diagnose → adapt skills → execute tasks**.
 
-
-**Building a directed skill graph — and synthesizing verifiable multi-skill coding tasks from it.**
-
-SkillNet-Gym is the open reference implementation for the pipeline described in
-*"SkillNet-Gym: Skill-Graph-Driven Auto-Synthesis of Verifiable Multi-Skill Coding
-Tasks"*. It contains two complementary sub-pipelines:
-
-1. **Graph construction** (`skillnet_gym.graph`) — search, filter, dedup, and
-   scenario-align a corpus of skills into a directed acyclic **skill graph**,
-   then sample multi-skill task topologies (chain / fan-in / fan-out / diamond)
-   from it.
-2. **Task auto-synthesis** (`skillnet_gym.synthesis`) — take a sampled DAG task
-   and the skills it references, drive Claude Code through autonomous
-   exploration and execution, and package the result as a fully verifiable
-   task (`instruction.md`, `solve.sh`, pytest tests, Dockerfile, `task.toml`).
-
-```
-   ┌────────────────────────────┐     ┌───────────────────────────────┐
-   │  Stage A: Skill Graph      │     │  Stage B: Task Auto-Synthesis │
-   │                            │     │                               │
-   │  search → filter → dedup   │──▶  │  file summary                 │
-   │        ↓                   │     │        ↓                      │
-   │  scenario align → edges    │──▶  │  DAG-guided exploration       │
-   │        ↓                   │     │        ↓                      │
-   │  DAG build → task sample   │──▶  │  instruction / oracle / tests │
-   │        ↓                   │     │        ↓                      │
-   │  package env + entities    │──▶  │  ➡  Harbor Task package       │
-   └────────────────────────────┘     └───────────────────────────────┘
-```
-
 ---
 
 ## 🔧 Installation
 
-```bash
-git clone https://github.com/your-org/skillnet-gym.git
-cd skillnet-gym
-python -m venv .venv && source .venv/bin/activate
-pip install -e .
-cp .env.example .env  # fill in your keys
-```
+For end-to-end evaluation, our task format is compatible with [Harbor](https://github.com/harbor-framework/harbor)'s official automated evaluation framework.
 
-The **synthesis** pipeline additionally needs the [Claude Code CLI](https://github.com/anthropics/claude-code)
-on your `PATH` (it is invoked as a subprocess for exploration and oracle
-execution).
+To better support users who may have difficulty pulling or running Docker images, we also modified the [Harbor](https://github.com/sunnychenxiwang/harbor) source code to **enable execution in a local Conda environment**. In addition, we ensure that Claude Code and Codex agents can run concurrently in isolated workspaces, preventing interference between parallel agent runs.
 
-```
-
-### 5. Evaluate skill composition in the wild
+To support local Harbor evaluation, we provide scripts for the following steps:
 
 ```bash
-python -m skillnet_gym.evaluate_composition \
-  --skill-pool data/skillnet/skills.jsonl \
-  --gold data/benchmark/metadata.jsonl \
-  --mode retrieve_and_orchestrate \
-  --agent claude-code \
-  --model claude-sonnet \
-  --top-k 10 \
-  --output runs/composition.jsonl
+# Installing Claude Code
+npm install -g @anthropic-ai/claude-code
+# Installing Harbor in a dedicated environment
+conda run -n conda_env pip install -e sunnychenxiwang/harbor
+# Installing the Conda environments required by the tasks
 ```
 
 ---
@@ -199,9 +156,6 @@ SkillNet graph files are stored as JSONL:
 
 ### End-to-end task execution
 
-For end-to-end evaluation, our task format is compatible with [Harbor](https://github.com/harbor-framework/harbor)'s official automated evaluation framework.
-
-To better support users who may have difficulty pulling or running Docker images, we also modified the [Harbor](https://github.com/sunnychenxiwang/harbor) source code to **enable execution in a local Conda environment**. In addition, we ensure that Claude Code and Codex agents can run concurrently in isolated workspaces, preventing interference between parallel agent runs.
 
 ```text
 Avg@k = average pass rate over k independent runs per task
@@ -267,6 +221,37 @@ SkillNet-Gym is not only a fixed benchmark. It is also a recipe for constructing
 1. Build Graph
 2. Sample
 3. Synthesis Tasks
+
+
+**Building a directed skill graph — and synthesizing verifiable multi-skill coding tasks from it.**
+
+SkillNet-Gym is the open reference implementation for the pipeline described in
+*"SkillNet-Gym: Skill-Graph-Driven Auto-Synthesis of Verifiable Multi-Skill Coding
+Tasks"*. It contains two complementary sub-pipelines:
+
+1. **Graph construction** (`skillnet_gym.graph`) — search, filter, dedup, and
+   scenario-align a corpus of skills into a directed acyclic **skill graph**,
+   then sample multi-skill task topologies (chain / fan-in / fan-out / diamond)
+   from it.
+2. **Task auto-synthesis** (`skillnet_gym.synthesis`) — take a sampled DAG task
+   and the skills it references, drive Claude Code through autonomous
+   exploration and execution, and package the result as a fully verifiable
+   task (`instruction.md`, `solve.sh`, pytest tests, Dockerfile, `task.toml`).
+
+```
+   ┌────────────────────────────┐     ┌───────────────────────────────┐
+   │  Stage A: Skill Graph      │     │  Stage B: Task Auto-Synthesis │
+   │                            │     │                               │
+   │  search → filter → dedup   │──▶  │  file summary                 │
+   │        ↓                   │     │        ↓                      │
+   │  scenario align → edges    │──▶  │  DAG-guided exploration       │
+   │        ↓                   │     │        ↓                      │
+   │  DAG build → task sample   │──▶  │  instruction / oracle / tests │
+   │        ↓                   │     │        ↓                      │
+   │  package env + entities    │──▶  │  ➡  Harbor Task package       │
+   └────────────────────────────┘     └───────────────────────────────┘
+```
+
 
    
 All credentials come from environment variables (or a `.env` file — the graph
