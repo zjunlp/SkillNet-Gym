@@ -188,13 +188,13 @@ SkillNet-Gym is not only a fixed benchmark. It is also a recipe for constructing
    ┌────────────────────────────┐     ┌───────────────────────────────┐
    │  Stage A: Skill Graph      │     │  Stage B: Task Auto-Synthesis │
    │                            │     │                               │
-   │  search → filter → dedup   │──▶  │  file summary                 │
+   │  search → filter → dedup   │──▶ │ Input Files summary           |                 
+   │        ↓                   │     │        ↓                      |
+   │  scenario align → edges    │──▶ │  DAG-guided exploration       │
    │        ↓                   │     │        ↓                      │
-   │  scenario align → edges    │──▶  │  DAG-guided exploration       │
-   │        ↓                   │     │        ↓                      │
-   │  DAG build → task sample   │──▶  │  instruction / oracle / tests │
-   │        ↓                   │     │        ↓                      │
-   │  package env + entities    │──▶  │  ➡  Harbor Task package       │
+   │  DAG build → task sample   │──▶ │  instruction / oracle / tests │
+   │        ↓                   │     │        ↓                      |
+   │  package env + entities    │──▶ │  ➡  Harbor Task package      |
    └────────────────────────────┘     └───────────────────────────────┘
 ```
 
