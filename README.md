@@ -110,33 +110,26 @@ SkillNet-Gym spans 13 core domains and 81 sub domains, covering a broad range of
 ---
 ## 📊 Evaluation
 
-### End-to-end task execution
+For end-to-end task execution and skill composition, we directly use the Harbor evaluation framework.
 
-
-```text
-Avg@k = average pass rate over k independent runs per task
+Evaluation with Docker: 
+```bash
+harbor run -p tasks/task \
+  --agent claude-code \
+  -m claude-sonnet-4-6 \
+  --ae ANTHROPIC_API_KEY=sk-exxx \
+  --ae ANTHROPIC_BASE_URL=xxx
 ```
 
-Run a full evaluation:
-
+Evaluation with Local Conda Environment:
 ```bash
-python -m skillnet_gym.evaluate \
-  --setting official_skill \
-  --agent codex \
-  --model gpt \
-  --split all \
-  --num-runs 3 \
-  --parallel 8 \
-  --output runs/official_skill_codex.jsonl
-```
-
-Summarize results:
-
-```bash
-python -m skillnet_gym.summarize \
-  --input runs/official_skill_codex.jsonl \
-  --group-by difficulty,domain,topology \
-  --output runs/official_skill_codex_summary.md
+harbor run --env local \
+  --ek conda_env=conda_env \
+  -p tasks/task \
+  --agent claude-code \
+  -m claude-sonnet-4-6 \
+  --ae ANTHROPIC_API_KEY=sk-exxx \
+  --ae ANTHROPIC_BASE_URL=xxx
 ```
 
 ### Skill composition evaluation
@@ -197,25 +190,6 @@ SkillNet-Gym is not only a fixed benchmark. It is also a recipe for constructing
    │  package env + entities    │──▶ │  ➡  Harbor Task package      |
    └────────────────────────────┘     └───────────────────────────────┘
 ```
-
-
-   
-All credentials come from environment variables (or a `.env` file — the graph
-scripts auto-load `.env` from the working directory):
-
-| Variable                 | Used by                       | Default                       |
-| ------------------------ | ----------------------------- | ----------------------------- |
-| `LLM_API_KEY` / `API_KEY`| every LLM step (both stages)  | —                             |
-| `LLM_BASE_URL`           | LLM client                    | `https://api.openai.com/v1`   |
-| `LLM_MODEL`              | LLM client                    | `gpt-4o`                      |
-| `EMBEDDING_API_KEY`      | dedup + alignment             | falls back to `LLM_API_KEY`   |
-| `EMBEDDING_BASE_URL`     | dedup + alignment             | falls back to `LLM_BASE_URL`  |
-| `EMBEDDING_MODEL`        | dedup + alignment             | `text-embedding-3-large`      |
-| `ANTHROPIC_AUTH_TOKEN`   | Claude Code (synthesis)       | —                             |
-| `ANTHROPIC_BASE_URL`     | Claude Code (synthesis)       | `https://api.anthropic.com`   |
-| `GITHUB_TOKEN`           | skill download (rate limits)  | —                             |
-
-Any OpenAI-compatible endpoint works (vLLM, OpenRouter, Ollama, etc.).
 
 ---
 
