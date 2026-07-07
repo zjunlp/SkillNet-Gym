@@ -132,35 +132,6 @@ harbor run --env local \
   --ae ANTHROPIC_BASE_URL=xxx
 ```
 
-### Skill composition evaluation
-
-Skill composition is evaluated without requiring the agent to execute the full task. The evaluator checks whether the agent retrieves the required skills and reconstructs the correct dependency graph.
-
-```text
-Skill Completeness = 1 if the predicted skill set covers all gold skills, else 0
-Graph Completeness = 1 if predicted skills and dependency edges cover the gold graph, else 0
-Recall / Precision = overlap-based retrieval and edge metrics
-Avg selected = average number of selected skills or edges
-```
-
-Run composition evaluation:
-
-```bash
-python -m skillnet_gym.evaluate_composition \
-  --skill-pool data/skillnet/skills.jsonl \
-  --tasks data/benchmark/metadata.jsonl \
-  --mode retrieve \
-  --top-k 10 \
-  --output runs/skill_retrieve.jsonl
-
-python -m skillnet_gym.evaluate_composition \
-  --skill-pool data/skillnet/skills.jsonl \
-  --tasks data/benchmark/metadata.jsonl \
-  --mode orchestrate \
-  --top-k 10 \
-  --output runs/skill_orchestration.jsonl
-```
-
 ---
 
 ## 🛠️ Build Your Own SkillNet-Gym
@@ -195,7 +166,7 @@ SkillNet-Gym is not only a fixed benchmark. It is also a recipe for constructing
 
 ### Stage A — Skill graph construction
 
-You may start with a pre-built candidate skill library, or construct the skill graph from search results with the [SkillNet-SDK](https://github.com/zjunlp/SkillNet). See `xxx` for more details.
+You may start with a pre-built candidate skill library, or construct the skill graph from search results with the [SkillNet-SDK](https://github.com/zjunlp/SkillNet). See [build_graph.md](https://github.com/zjunlp/SkillNet-Gym/blob/main/docs/build_graph.md) for more details.
 
 ---
 
