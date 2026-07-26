@@ -169,9 +169,36 @@ SkillNet-Gym is not only a fixed benchmark. It is also a recipe for constructing
 
 ---
 
-### Stage A — Skill graph construction
+### Stage A — Build a Skill Graph with SkillNet
 
-You may start with a pre-built candidate skill library, or construct the skill graph from search results with the [SkillNet-SDK](https://github.com/zjunlp/SkillNet). See [build_graph.md](https://github.com/zjunlp/SkillNet-Gym/blob/main/docs/build_graph.md) for more details.
+SkillNet provides the skill infrastructure used by SkillNet-Gym: it supports discovering and downloading reusable skills, then inferring their compositional relationships as a directed graph. SkillNet-Gym builds on this graph to sample chain, fan-in, fan-out, and diamond workflows for benchmark construction. Install the graph dependencies with pip install "skillnet-ai[graph]", configure the LLM and embedding endpoints, and run code as below. See [build_graph.md](https://github.com/zjunlp/SkillNet-Gym/blob/main/docs/build_graph.md) for more details.
+
+
+```python
+import os
+from skillnet_ai import SkillNetClient
+
+skills_dir = "./my_skills"
+client = SkillNetClient()  # Uses API_KEY, BASE_URL, and SKILLNET_MODEL
+
+# Search for and download skills into the local skill library.
+for query in ["PDF extraction", "table analysis"]:
+    for skill in client.search(query, limit=1):
+        client.download(skill.skill_url, target_dir=skills_dir)
+
+# Build a scenario-level directed skill graph.
+result = client.analyze(
+    skills_dir=skills_dir,
+    mode="scenario",
+    embedding_api_key=os.environ["EMBEDDING_API_KEY"],
+    embedding_base_url=os.environ["EMBEDDING_BASE_URL"],
+    embedding_model=os.environ["EMBEDDING_MODEL"],
+    output_dir=f"{skills_dir}/skillnet_graph",
+)
+
+for edge in result["scenario_skill_graph"]["edges"]:
+    print(edge["source_skill_name"], "->", edge["target_skill_name"])
+```
 
 ---
 
