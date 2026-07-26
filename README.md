@@ -26,6 +26,11 @@
   
 </div>
 
+## 📢 News
+- **[2026-07-27] SkillNet-Gym Release**: We release SkillNet-Gym, together with the code for automatic task synthesis and the complete evaluation pipeline.
+- **[2026-07-11] SkillNet update**. The library now indexes 500K+ GitHub skills with improved deduplication, expands scientific-research and data-analysis skill coverage, and adds local scenario graphs plus orchestration.
+
+
 ## Table of Contents
 
 - [✨ Overview](#overview)
