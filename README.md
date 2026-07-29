@@ -175,9 +175,13 @@ SkillNet-Gym is not only a fixed benchmark. It is also a recipe for constructing
 ---
 
 ### Stage A — Build a Skill Graph with SkillNet
+Install the SkillNet SDK:
+
+```bash
+pip install skillnet-ai
+```
 
 SkillNet provides the skill infrastructure used by SkillNet-Gym: it supports discovering and downloading reusable skills, then inferring their compositional relationships as a directed graph. SkillNet-Gym builds on this graph to sample chain, fan-in, fan-out, and diamond workflows for benchmark construction. Install the graph dependencies with pip install "skillnet-ai[graph]", configure the LLM and embedding endpoints, and run code as below. See [build_graph.md](https://github.com/zjunlp/SkillNet-Gym/blob/main/docs/build_graph.md) for more details.
-
 
 ```python
 import os
