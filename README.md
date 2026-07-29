@@ -137,6 +137,11 @@ harbor run --env local \
   --ae ANTHROPIC_BASE_URL=xxx
 ```
 
+The end-to-end evaluation results are shown below:
+<p align="center">
+  <img src="imgs/main_res.png" alt="" width="92%">
+</p>
+
 ---
 
 ## 🛠️ Build Your Own SkillNet-Gym
