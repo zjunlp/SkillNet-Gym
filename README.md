@@ -4,7 +4,7 @@
 
 
 <p align="center">
-  <a href="https://github.com/zjunlp/SkillNet-Gym" target="_blank">📄arXiv</a> •
+  <a href="https://arxiv.org/abs/2603.04448" target="_blank">📄arXiv</a> •
   <a href="https://github.com/zjunlp/SkillNet-Gym" target="_blank">🤗HFPaper</a> •
   <a href="https://github.com/zjunlp/SkillNet-Gym" target="_blank">📊Dataset</a> •
 </p>
@@ -27,6 +27,7 @@
 </div>
 
 ## 📢 News
+- **[2026-08-20] SkillNet paper update.** **SkillNet-Gym** brings executable benchmarks for skill construction, retrieval, and composition; **SkillNet-Fabric** provides task time routing through a task specific Wiki. [Paper](https://arxiv.org/abs/2603.04448).
 - **[2026-07-27] SkillNet-Gym Release**: We release SkillNet-Gym, together with the code for automatic task synthesis and the complete evaluation pipeline.
 - **[2026-07-11] SkillNet update**. The library now indexes 500K+ GitHub skills with improved deduplication, expands scientific-research and data-analysis skill coverage, and adds local scenario graphs plus orchestration.
 
@@ -274,5 +275,13 @@ This repository develops a benchmark based on [Harbor](https://github.com/harbor
 
 ## 🚩 Citation
 
-If SkillNet-Gym is useful in your research, please cite the paper (BibTeX
-entry to appear here).
+If SkillNet-Gym is useful in your research, please cite:
+
+```bibtex
+@article{liang2026skillnet,
+  title={Skillnet: Create, evaluate, and connect ai skills},
+  author={Liang, Yuan and Zhong, Ruobin and Xu, Haoming and Jiang, Chen and Zhong, Yi and Fang, Runnan and Gu, Jia-Chen and Deng, Shumin and Yao, Yunzhi and Wang, Mengru and others},
+  journal={arXiv preprint arXiv:2603.04448},
+  year={2026}
+}
+```
